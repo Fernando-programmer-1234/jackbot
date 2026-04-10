@@ -1,16 +1,11 @@
 import re
 import discord
 from discord.ext import commands
-import json
 import os
-
-# carregar configurações
-with open('config.json') as f:
-    config = json.load(f)
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix=config['prefix'], intents=intents)
+bot = commands.Bot(command_prefix=".", intents=intents)
 
 # quando o bot estiver ligado
 @bot.event
@@ -39,4 +34,5 @@ async def on_message(message):
 
     await bot.process_commands(message) #MUITO IMPORTANTE!!!
 
-bot.run(config['token'])
+TOKEN = os.getenv("TOKEN")
+bot.run(TOKEN)
