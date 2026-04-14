@@ -59,4 +59,9 @@ async def on_message(message):
 
 
 TOKEN = os.getenv("TOKEN")
+
+if not TOKEN:
+    print("TOKEN não encontrado!")
+    exit()
+
 bot.run(TOKEN)
