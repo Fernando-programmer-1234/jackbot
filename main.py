@@ -1,7 +1,20 @@
 import re
 import discord
 from discord.ext import commands
+import json
 import os
+
+# IDs dos Canais
+CANAL_INSTAGRAM = 1493752795902509268
+CANAL_TIKTOK = 1493752830735941815
+
+# padrões específicos
+instagram_pattern = r"(instagram\.com)"
+tiktok_pattern = r"(tiktok\.com)"
+
+# carregar configurações
+with open('config.json') as f:
+    config = json.load(f)
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -23,9 +36,23 @@ async def on_message(message):
     if message.author.bot:
         return
     
-    link_patter = r"(https?://\S+|www\.\S+)"
+    link_pattern = r"(https?://\S+|www\.\S+)"
 
-    if re.search(link_patter, message.content):
+    content = message.content.lower()
+
+    if re.search(link_pattern, content):
+
+        # ✅ LIBERAR Instagram no canal certo
+        if message.channel.id == CANAL_INSTAGRAM and re.search(instagram_pattern, content):
+            await bot.process_commands(message)
+            return
+
+        # ✅ LIBERAR TikTok no canal certo
+        if message.channel.id == CANAL_TIKTOK and re.search(tiktok_pattern, content):
+            await bot.process_commands(message)
+            return
+
+        # ❌ BLOQUEIA O RESTO
         await message.delete()
         await message.channel.send(
             f"{message.author.mention}, links não são permitidos aqui!",
@@ -34,5 +61,7 @@ async def on_message(message):
 
     await bot.process_commands(message) #MUITO IMPORTANTE!!!
 
+
+
 TOKEN = os.getenv("TOKEN")
-bot.run(TOKEN)
+bot.run(config['TOKEN'])
