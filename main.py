@@ -12,10 +12,6 @@ CANAL_TIKTOK = 1493752830735941815
 instagram_pattern = r"(instagram\.com)"
 tiktok_pattern = r"(tiktok\.com)"
 
-# carregar configurações
-with open('config.json') as f:
-    config = json.load(f)
-
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix=".", intents=intents)
