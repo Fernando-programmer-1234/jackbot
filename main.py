@@ -58,5 +58,5 @@ async def on_message(message):
     await bot.process_commands(message) #MUITO IMPORTANTE!!!
 
 
-
+TOKEN = os.getenv("TOKEN")
 bot.run(TOKEN)
